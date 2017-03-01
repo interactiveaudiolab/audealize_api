@@ -1,0 +1,23 @@
+<script src="/static/js/utilities/jquery.min.js"></script>
+<script src="/static/js/utilities/primefactors.js"></script>
+<script src="/static/js/effects/filter.js"></script>
+<script src="/static/js/utilities/bufferloader.js"></script>
+<script src="/static/js/effects/equalizer.js"></script>
+<script src="/static/js/effects/reverb.js"></script>
+<script src="/static/js/effects/audealize.js"></script>
+<script src="/static/js/main.js"></script>
+
+<button onclick="play()">
+    Play
+</button>
+
+<button onclick="stop()">
+    Stop
+</button>
+
+<input type="text" id="eq-input"
+       onkeyup="if (event.keyCode == 13) parse(this);" title="eq"
+       placeholder="EQ word goes here">
+<input type="text" id="reverb-input"
+       onkeyup="if (event.keyCode == 13) parse(this);" title="reverb"
+       placeholder="Reverb word goes here">

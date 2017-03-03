@@ -325,5 +325,24 @@ Reverb.prototype = Object.create(null, {
 			this.wet.gain.value = Math.cos((1 - value)*.5*Math.PI);
 			this.dry.gain.value = Math.cos(value*.5*Math.PI);
 		}
+	},
+
+	settings : {
+		get: function () {
+			return [this.d,
+					this.g,
+					this.m,
+					this.f,
+					this.E,
+					this.wetdry];
+		},
+		set: function (settings) {
+			this.d = settings[0];
+			this.g = settings[1];
+			this.m = settings[2];
+			this.f = settings[3];
+			this.E = settings[4];
+			this.wetdry = settings[5];
+		}
 	}
 });

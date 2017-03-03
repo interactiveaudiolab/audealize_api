@@ -45,11 +45,11 @@ function create_source(buffer, loop) {
 function parse(obj) {
     word = $('#' + obj.id)[0].value;
     if (obj.id == 'reverb-input') {
-        Audealize.reverb_descriptor = word;
-        console.log('Changed reverb setting to ' + word)
-    }
+		audealize.reverb_descriptor = word;
+		console.log('Changed reverb setting to ' + word);
+	}
     else if (obj.id == 'eq-input') {
-        Audealize.eq_descriptor = word;
-        console.log('Changed eq setting to ' + word)
+		audealize.eq_descriptor = word;
+		console.log('Changed eq setting to ' + word); 		
     }
 }

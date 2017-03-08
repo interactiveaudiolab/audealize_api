@@ -16,42 +16,10 @@ function Audealize (context, opts) {
 	this.parameters.eq_descriptor = opts.eq_descriptor || 'bright'
 	this.parameters.reverb_descriptor = opts.reverb_descriptor|| 'crisp'
 
-	// TODO this currently does nothing
-	//this.input.connect(this.output);
 	this.input.connect(this.eq.input);
 	this.input.connect(this.reverb.input);
 	this.eq.connect(this.output);
 	this.reverb.connect(this.output);
-
-	dict = {};
-	dict['eq'] = {};
-	dict['reverb'] = {};
-
-	$.getJSON("/static/data/eqdescriptors.json", function (json) {
-		json;
-		for (i = 0; i < json.length; i++) {
-			var word = json[i].word;
-			dict['eq'][word] = {};
-			dict['eq'][word]['settings'] = json[i].settings;
-			dict['eq'][word]['lang'] = json[i].lang;
-			dict['eq'][word]['agreement'] = json[i].agreement;
-			dict['eq'][word]['num'] = json[i].num;
-		}
-	});
-
-	$.getJSON("/static/data/reverbdescriptors.json", function (json) {
-		json;
-		for (i = 0; i < json.length; i++) {
-			var word = json[i].word;
-			dict['reverb'][word] = {};
-			dict['reverb'][word]['settings'] = json[i].settings;
-			dict['reverb'][word]['lang'] = json[i].lang;
-			dict['reverb'][word]['agreement'] = json[i].agreement;
-			dict['reverb'][word]['num'] = json[i].num;
-		}
-	});
-
-	this.dict = dict;
 }
 
 Audealize.prototype = Object.create(null, {
@@ -71,16 +39,16 @@ Audealize.prototype = Object.create(null, {
 		get: function () { return this.parameters.eq_descriptor; },
 		set: function (word) {
 			word = word.toLowerCase();
-			if (word in this.dict['eq']) {
-				this.eq.curve = this.dict['eq'][word]['settings'];
+			if (word in descriptors['eq']) {
+				this.eq.curve = descriptors['eq'][word]['settings'];
 				this.parameters.eq_descriptor = word;
 			}
 			else {
-				syn = this.get_synonym(word, 'eq');
-				if (syn != null) {
-					this.eq.curve = this.dict['eq'][syn]['settings'];
-					this.parameters.eq_descriptor = syn;
-				}
+				// syn = this.get_synonym(word, 'eq');
+				// if (syn != null) {
+				// 	this.eq.curve = descriptors['eq'][syn]['settings'];
+				// 	this.parameters.eq_descriptor = syn;
+				// }
 			}
 		}
 	},
@@ -89,8 +57,8 @@ Audealize.prototype = Object.create(null, {
 		get: function () { return this.parameters.reverb_descriptor; },
 		set: function (word) {
 			word = word.toLowerCase();
-			if (word in this.dict['reverb']) {
-				this.reverb.settings = this.dict['reverb'][word]['settings'];
+			if (word in descriptors['reverb']) {
+				this.reverb.settings = descriptors['reverb'][word]['settings'];
 				this.parameters.reverb_descriptor = word;
 			}
 			else {
@@ -100,4 +68,6 @@ Audealize.prototype = Object.create(null, {
 			//TODO find synonyms
 		}
 	},
+
+
 });

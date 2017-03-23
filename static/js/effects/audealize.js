@@ -25,6 +25,8 @@ function Audealize (context, opts) {
   this.parameters.reverb_descriptor = opts.reverb_descriptor || 'crisp'
   this.parameters.eq_amount = opts.eq_amount || 1
   this.parameters.reverb_amount = opts.reverb_amount || .7
+  this.parameters.eq_on = opts.eq_on || true
+  this.parameters.reverb_on = opts.reverb_on || true
 
   // start out dry
   this.reverb.wetdry = 0
@@ -35,30 +37,6 @@ function Audealize (context, opts) {
 }
 
 Audealize.prototype = Object.create(null, {
-  /**
-   * Set bypass status for EQ and Reverb effects
-   * @function
-   * @name Audealize~bypass
-   * @param {boolean} eq - If true, EQ will be enabled. If false, EQ will be
-   * bypassed
-   * @param {boolean} reverb - If true, EQ will be enabled. If false, EQ will be
-   * bypassed
-   */
-  bypass: {
-    value: function(eq, reverb) {
-      if (eq) {
-        this.eq.curve = descriptors['eq'][this.parameters.eq_descriptor]['settings']
-      } else {
-        this.eq.curve = new Array(40).fill(0)
-      }
-      if (reverb) {
-        this.reverb.wetdry = this.parameters.wetdry
-      } else {
-        this.reverb.wetdry = 0
-      }
-    }
-  },
-
   /**
    * Connect output of this node to the input of another AudioNode
    * @function
@@ -187,6 +165,43 @@ Audealize.prototype = Object.create(null, {
     }
   },
 
+  /**
+   * The on/off state of the eq effect
+   * @member
+   * @name Audealize~eq_on
+   * @type boolean
+   */
+  eq_on: {
+    get: function() { return this.parameters.eq_on },
+    set: function(on) {
+      this.parameters.eq_on = on
+      if (on) {
+        this.eq.range = this.parameters.eq_amount
+      }
+      else {
+        this.eq.range = 0
+      }
+    }
+  },
+
+  /**
+    * The on/off state of the reverb effect
+    * @member
+    * @name Audealize~reverb_on
+    * @type boolean
+    */
+  reverb_on: {
+    get: function() { return this.parameters.reverb_on },
+    set: function(on) {
+      this.parameters.reverb_on = on
+      if (on) {
+        this.reverb.wetdry = this.parameters.reverb_amount
+      }
+      else {
+        this.reverb.wetdry = 0
+      }
+    }
+  },
 
   // For internal use only
   get_synonyms: {

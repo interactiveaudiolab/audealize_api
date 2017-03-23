@@ -17,16 +17,14 @@
     Stop
 </button>
 
-<input type="text" id="eq-input"
-       onkeyup="if (event.keyCode == 13) parse(this);" title="eq"
-       placeholder="EQ word goes here">
-<input type="text" id="reverb-input"
-       onkeyup="if (event.keyCode == 13) parse(this);" title="reverb"
-       placeholder="Reverb word goes here">
 <br>
 <br>
+
 EQ:
-<br>
+
+&nbsp
+<input type="text" id="eq-input" onkeyup="if (event.keyCode == 13) parse(this);" title="eq" placeholder="EQ word goes here">
+&nbsp
 <button onclick="toggle_eq()">
     EQ On/Off
 </button>
@@ -36,7 +34,10 @@ Amount:
 <br>
 <br>
 Reverb:
-<br>
+
+&nbsp
+<input type="text" id="reverb-input" onkeyup="if (event.keyCode == 13) parse(this);" title="reverb" placeholder="Reverb word goes here">
+&nbsp
 <button onclick="toggle_reverb()">
     Reverb On/Off
 </button>

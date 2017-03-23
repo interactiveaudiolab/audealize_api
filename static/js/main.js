@@ -35,11 +35,27 @@ function stop() {
     audio.stop()
 }
 
+function toggle_eq() {
+	audealize.eq_on = !audealize.eq_on
+}
+
+function toggle_reverb() {
+  audealize.reverb_on = !audealize.reverb_on
+}
+
 function create_source(buffer, loop) {
 	var source = context.createBufferSource();
 	source.buffer = buffer;
 	source.loop = loop;
 	return source;
+}
+
+function eq_amount(amount) {
+	audealize.eq_amount = amount
+}
+
+function reverb_amount(amount) {
+	audealize.reverb_amount = amount
 }
 
 function parse(obj) {
@@ -53,3 +69,5 @@ function parse(obj) {
 		//console.log('Changed eq setting to ' + word); 		
     }
 }
+
+

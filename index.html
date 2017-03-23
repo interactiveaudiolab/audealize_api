@@ -23,3 +23,23 @@
 <input type="text" id="reverb-input"
        onkeyup="if (event.keyCode == 13) parse(this);" title="reverb"
        placeholder="Reverb word goes here">
+<br>
+<br>
+EQ:
+<br>
+<button onclick="toggle_eq()">
+    EQ On/Off
+</button>
+&nbsp
+Amount:
+<input type="range" min="-2" max="2" value="1" onchange="eq_amount(this.value)" />
+<br>
+<br>
+Reverb:
+<br>
+<button onclick="toggle_reverb()">
+    Reverb On/Off
+</button>
+&nbsp
+Amount: 
+<input type="range" min="0" max="1" value="1" onchange="reverb_amount(this.value)" />

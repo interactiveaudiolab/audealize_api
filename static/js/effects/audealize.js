@@ -15,7 +15,7 @@ function Audealize (context, opts) {
   this.input = context.createGain()
   this.output = context.createGain()
 
-  curve = new Array(40).fill(0);
+  curve = new Array(40).fill(0.0);
   this.eq = new Equalizer(context, { 'curve': curve })
 
   this.reverb = new Reverb(context)
@@ -161,7 +161,7 @@ Audealize.prototype = Object.create(null, {
 
   /**
    * The intensity of the EQ effect. Default = 1.0
-   * Set with a positive number
+   * Set with a number 
    * @member
    * @name Audealize~eq_amount
    */
@@ -169,7 +169,7 @@ Audealize.prototype = Object.create(null, {
     get: function() { return this.parameters.eq_amount },
     set: function(amount) {
       this.parameters.eq_amount = amount
-      this.eq.range = amount / 5. // eq multiplies range by 5 before scaling gain vals
+      this.eq.range = amount
     }
   },
 

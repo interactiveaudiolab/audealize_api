@@ -5,8 +5,11 @@ var audio;
 
 function setupContext() {
 	context = new AudioContext();
-	audealize = new Audealize(context, {'eq': 'bright',
-										'reverb': 'crisp'});
+	audealize = new Audealize(context, '4cdc8dfc9297f52969df235e3b339e63',
+		{
+          'eq': 'bright',
+          'reverb': 'crisp'
+        });
 }
 
 $(document).ready(function() {

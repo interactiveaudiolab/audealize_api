@@ -40,7 +40,7 @@
 
     
 
-    <h4 class="name" id="Audealize"><span class="type-signature"></span>new Audealize<span class="signature">(context, opts)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Audealize"><span class="type-signature"></span>new Audealize<span class="signature">(context, api_key, opts)</span><span class="type-signature"></span></h4>
 
     
 
@@ -106,6 +106,29 @@
 
         <tr>
             
+                <td class="name"><code>api_key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">api key for http://words.bighugelabs.com. Needed for finding synonyms</td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>opts</code></td>
             
 
@@ -122,7 +145,8 @@
 
             
 
-            <td class="description last">Can contain initial vlaues for eq_descriptor and reverb_descriptor</td>
+            <td class="description last">Can contain initial vlaues for eq_descriptor and
+reverb_descriptor</td>
         </tr>
 
     
@@ -214,7 +238,7 @@
 
 <div class="description">
     The intensity of the EQ effect. Default = 1.0
-Set with a positive number
+Set with a number
 </div>
 
 
@@ -252,7 +276,7 @@ Set with a positive number
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line162">line 162</a>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line141">line 141</a>
     </li></ul></dd>
     
 
@@ -315,7 +339,79 @@ Set with a string or Descriptor.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line81">line 81</a>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line63">line 63</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~eq_on"><span class="type-signature">(inner) </span>eq_on<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    The on/off state of the eq effect
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -378,7 +474,7 @@ Set with a number  [0,1]
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line176">line 176</a>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -441,7 +537,7 @@ Set with a string or Descriptor.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line120">line 120</a>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -458,107 +554,27 @@ Set with a string or Descriptor.
 
 
         
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
             
+<h4 class="name" id="~reverb_on"><span class="type-signature">(inner) </span>reverb_on<span class="type-signature"> :boolean</span></h4>
 
-    
-
-    <h4 class="name" id="~bypass"><span class="type-signature">(inner) </span>bypass<span class="signature">(eq, reverb)</span><span class="type-signature"></span></h4>
-
-    
 
 
 
 <div class="description">
-    Set bypass status for EQ and Reverb effects
+    The on/off state of the reverb effect
 </div>
 
 
 
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
+    <h5>Type:</h5>
+    <ul>
+        <li>
             
-                <td class="name"><code>eq</code></td>
-            
-
-            <td class="type">
-            
-                
 <span class="param-type">boolean</span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If true, EQ will be enabled. If false, EQ will be
-bypassed</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reverb</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If true, EQ will be enabled. If false, EQ will be
-bypassed</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
+        </li>
+    </ul>
 
 
 
@@ -593,7 +609,7 @@ bypassed</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line38">line 38</a>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -609,15 +625,11 @@ bypassed</td>
 
 
 
+        
+    
 
-
-
-
-
-
-
-
-
+    
+        <h3 class="subsection-title">Methods</h3>
 
         
             
@@ -724,7 +736,7 @@ bypassed</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line62">line 62</a>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -806,7 +818,7 @@ bypassed</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line74">line 74</a>
+        <a href="audealize.js.html">audealize.js</a>, <a href="audealize.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -854,7 +866,7 @@ bypassed</td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Mar 22 2017 23:41:58 GMT-0500 (CDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Mar 27 2017 12:47:44 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>

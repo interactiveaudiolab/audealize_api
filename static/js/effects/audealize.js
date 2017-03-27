@@ -8,32 +8,36 @@ Depends: reverb.js, equalizer.js, data.js, descriptor.js
  * Audealize AudioNode. See {@tutorial Audealize-tutorial}
  * @class
  * @name Audealize
- * @param {AudioContext} context 
- * @param {Object} opts - Can contain initial vlaues for eq_descriptor and reverb_descriptor
+ * @param {AudioContext} context
+ * @param {string} api_key - api key for http://words.bighugelabs.com. Needed for finding synonyms
+ * @param {Object} opts - Can contain initial vlaues for eq_descriptor and
+ * reverb_descriptor
  */
-function Audealize (context, opts) {
-  this.input = context.createGain()
-  this.output = context.createGain()
+function Audealize (context, api_key, opts) {
+  this.input = context.createGain();
+  this.output = context.createGain();
 
-  curve = new Array(40).fill(0.0);
-  this.eq = new Equalizer(context, { 'curve': curve })
+  var curve = new Array(40).fill(0.0);
+  this.eq = new Equalizer(context, { 'curve': curve });
 
-  this.reverb = new Reverb(context)
+  this.reverb = new Reverb(context);
 
-  this.parameters = new Object()
-  this.parameters.eq_descriptor = opts.eq_descriptor || 'bright'
-  this.parameters.reverb_descriptor = opts.reverb_descriptor || 'crisp'
-  this.parameters.eq_amount = opts.eq_amount || 1
-  this.parameters.reverb_amount = opts.reverb_amount || .7
-  this.parameters.eq_on = opts.eq_on || true
-  this.parameters.reverb_on = opts.reverb_on || true
+  this.api_key = api_key || null;
+
+  this.parameters = new Object();
+  this.parameters.eq_descriptor = opts.eq_descriptor || 'bright';
+  this.parameters.reverb_descriptor = opts.reverb_descriptor || 'crisp';
+  this.parameters.eq_amount = opts.eq_amount || 1;
+  this.parameters.reverb_amount = opts.reverb_amount || 0.7;
+  this.parameters.eq_on = opts.eq_on || true;
+  this.parameters.reverb_on = opts.reverb_on || true;
 
   // start out dry
-  this.reverb.wetdry = 0
+  this.reverb.wetdry = 0;
 
-  this.input.connect(this.eq.input)
-  this.eq.connect(this.reverb.input)
-  this.reverb.connect(this.output)
+  this.input.connect(this.eq.input);
+  this.eq.connect(this.reverb.input);
+  this.reverb.connect(this.output);
 }
 
 Audealize.prototype = Object.create(null, {
@@ -205,27 +209,38 @@ Audealize.prototype = Object.create(null, {
 
   // For internal use only
   get_synonyms: {
-    value: function(word) {
-      var url = 'http://words.bighugelabs.com/api/2/4cdc8dfc9297f52969df235e3b339e63/'
-      word = word.replace(/' '/g, '%20')
-      var fullurl = url + word + '/json'
-      var response = ''
+    value: function (word) {
+      if (this.api_key == null) {
+        return [];
+      }
+      // Thesaurus service provided by words.bighugelabs.com
+      var url = 'http://words.bighugelabs.com/api/2/' + this.api_key + '/';
+      word = word.replace(/' '/g, '%20');
+      var fullurl = url + word + '/json';
+      var response = '';
 
-      $.post(fullurl, {}, function(repl) {
-         response = repl
-      }, 'json').fail(function (x) { console.log(x) })
-      
-      var synonyms = []
-      for (var mainkey in response) {
-        for (var subkey in response[mainkey]) {
-          if (subkey != 'ant') {
+      $.ajax({
+        url: fullurl,
+        success: function (repl, status) {
+          response = repl;
+        },
+        type: 'POST',
+        dataType: 'json',
+        async: false
+      });  // .fail(function (x) { console.log(x) })
+
+      var synonyms = [];
+
+      for (var mainkey in response) { // part of speech
+        for (var subkey in response[mainkey]) { // syn, sim, ant, etc..
+          if (subkey !== 'ant') { // don't want to include antonyms
             for (var syn in response[mainkey][subkey]) {
-              synonyms.push(syn)
+              synonyms.push(response[mainkey][subkey][syn]);
             }
           }
         }
       }
-      return synonyms
+      return synonyms;
     }
-  },
-})
+  }
+});

@@ -5,13 +5,32 @@ Depends: reverb.js, equalizer.js, data.js, descriptor.js
 */
 
 /**
- * Audealize AudioNode. See {@tutorial Audealize-tutorial}
+ * <b>The Audealize AudioNode </b>(See {@tutorial gettingstarted}) <br>
+ *
+ * Enables semantic control of EQ and reverb effects <br><br>
+ *
+ * To use, instantiate the node in your web audio graph, then set
+ * {@link Audealize~eq_descriptor} or {@link Audealize~reverb_descriptor} <br>
+ * <br>
+ *
+ * This node can optionally look for synonyms if an unkown descriptor is given.
+ * <br>
+ * <i>To utilize this functionality, get an API key from
+ * <a
+ * href="http://words.bighugelabs.com/api.php">http://words.bighugelabs.com/api.php</a>
+ * and pass as an argument to the
+ * constructor.
+ *
+ *
  * @class
  * @name Audealize
- * @param {AudioContext} context
- * @param {string} api_key - api key for http://words.bighugelabs.com. Needed for finding synonyms
- * @param {Object} opts - Can contain initial vlaues for eq_descriptor and
- * reverb_descriptor
+ * @param {AudioContext} context - The Web Audio context
+ * @param {string} api_key - (optional) API key for Thesaurus service provided
+ * by
+ * <a href="http://words.bighugelabs.com/api.php">words.bighugelabs.com</a>
+ * (See {@tutorial synonyms})
+ * @param {Object} opts - (optional) Initial vlaues for
+ * eq_descriptor, reverb_descriptor, eq_amount, reverb_amount, eq_on, reverb_on
  */
 function Audealize (context, api_key = '', opts = {}) {
   this.input = context.createGain();
@@ -48,29 +67,35 @@ Audealize.prototype = Object.create(null, {
    * @param {AudioNode} dest - The node to connect to
    */
   connect: {
-    value: function (dest) {
+    value: function(dest) {
       this.output.connect(dest.input ? dest.input : dest);
     }
   },
 
   /**
-   * Disconnect output of this node
+   * Disconnect the output of this node
    * @function
    * @name Audealize~disconnect
    */
-  disconnect: {value: function () { this.output.disconnect(); }},
+  disconnect: {value: function() { this.output.disconnect(); }},
 
   /**
-   * The EQ {@link Descriptor}.
-   * Set with a string or Descriptor.
+   * The EQ {@link Descriptor}. <br>
+   * Set with a string or {@link Descriptor}. Changes to this paramter will
+   * cause the effect settings to be changed immediately to match. <br>
+   * If set with a descriptor not present in the EQ dictionary, the node
+   * will attempt to find synonyms in the dictionary. (See {@tutorial synonyms})
+   * <br>
+   * If none are found, the descriptor will revert to its previous value.
    * @member
    * @name Audealize~eq_descriptor
+   * @type Descriptor
    */
   eq_descriptor: {
-    get: function () {
+    get: function() {
       return new Descriptor(this.parameters.eq_descriptor, 'eq');
     },
-    set: function (word) {
+    set: function(word) {
       word = word.word ? word.word : word.toLowerCase();
 
       if (word in descriptors['eq']) {
@@ -78,38 +103,42 @@ Audealize.prototype = Object.create(null, {
         this.eq.curve = descriptors['eq'][word]['settings'];
         this.parameters.eq_descriptor = word;
       } else {
-        console.log('(Audealize) Looking for synonyms of ' + word);
         var synonyms = this.get_synonyms(word);
-        if (synonyms.length == 0) {
-          console.log('(Audealize) No synonyms found');
-          return;
-        }
-        for (var i in synonyms) {
-          var syn = synonyms[i];
-          if (syn in descriptors['eq']) {
-            this.parameters.eq_descriptor = syn;
-            this.eq.curve =
-              descriptors['eq'][syn]['settings'];
-            console.log('(Audealize) Found EQ synonym ' + syn);
-            return;
+        if (synonyms.length > 0) {
+ 
+          for (var i in synonyms) {
+            var syn = synonyms[i];
+            if (syn in descriptors['eq']) {
+              this.parameters.eq_descriptor = syn;
+              this.eq.curve =
+                descriptors['eq'][syn]['settings'];
+              console.log('(Audealize) Found EQ synonym ' + syn);
+              return;
+            }
           }
         }
-        console.log('(Audealize) No synonyms found');
+        console.log('(Audealize) Descriptor not found');
       }
     }
   },
 
   /**
-   * The reverb {@link Descriptor}.
-   * Set with a string or Descriptor.
+   * The reverb {@link Descriptor}. <br>
+   * Set with a string or {@link Descriptor}. Changes to this paramter will
+   * cause the effect settings to be changed immediately to match. <br>
+   * If set with a descriptor not present in the reverb dictionary, the node
+   * will attempt to find synonyms in the dictionary.
+   * (See {@tutorial synonyms}) <br>
+   * If none are found, the descriptor will revert to its previous value.
    * @member
    * @name Audealize~reverb_descriptor
+   * @type Descriptor
    */
   reverb_descriptor: {
-    get: function () {
+    get: function() {
       return new Descriptor(this.parameters.reverb_descriptor, 'reverb');
     },
-    set: function (word) {
+    set: function(word) {
       word = word.word ? word.word : word.toLowerCase();
 
       if (word in descriptors['reverb']) {
@@ -118,65 +147,71 @@ Audealize.prototype = Object.create(null, {
         this.parameters.reverb_descriptor = word;
         console.log('(Audealize) Changed reverb setting to ' + word);
       } else {
-        console.log('(Audealize) Looking for synonyms of ' + word);
         var synonyms = this.get_synonyms(word);
-        if (synonyms.length == 0) {
-          console.log('(Audealize) No synonyms found');
-          return;
-        }
-        for (var i in synonyms) {
-          var syn = synonyms[i];
-          if (syn in descriptors['reverb']) {
-            this.parameters.eq_descriptor = syn;
-            this.eq.curve = descriptors['reverb'][syn]['settings'];
-            console.log('(Audealize) Found reverb synonym ' + syn);
-            return;
+        
+        if (synonyms.length > 0) { 
+          for (var i in synonyms) {
+            var syn = synonyms[i];
+            if (syn in descriptors['reverb']) {
+              this.parameters.eq_descriptor = syn;
+              this.eq.curve = descriptors['reverb'][syn]['settings'];
+              console.log('(Audealize) Found reverb synonym ' + syn);
+              return;
+            }
           }
-        }
-        console.log('(Audealize) No synonyms found');
+        }  
+        console.log('(Audealize) Descriptor not found');
       }
     }
   },
 
   /**
-   * The intensity of the EQ effect. Default = 1.0
-   * Set with a number
+   * The intensity of the EQ effect. <br>
+   * Scales the gain values of each filter in the equalizer. <br>
+   * Default = 1.0. A value of 0.0 means the EQ curve will be flat at 0dB. <br>
+   * Negative values can be used to achieve the inverse effect of the
+   * descriptor. (e.g. If eq_descriptor = 'bright' and eq_amount = -1, the sound
+   * will the opposite of bright)
    * @member
    * @name Audealize~eq_amount
+   * @type number
    */
   eq_amount: {
-    get: function () {
-      return this.parameters.eq_amount;
-    },
-    set: function (amount) {
+    get: function() { return this.parameters.eq_amount; },
+    set: function(amount) {
       this.parameters.eq_amount = amount;
       this.eq.range = amount;
     }
   },
 
   /**
-   * The ratio of reverb to dry signal. 1 = reverb only. 0 = dry signal only
-   * Set with a number  [0,1]
+   * The ratio of reverb to dry signal. <br>
+   * 1 = reverb only. 0 = dry signal only. <br>
+   * Set with a number [0,1]
    * @member
    * @name Audealize~reverb_amount
+   * @type number
    */
   reverb_amount: {
-    get: function () { return this.parameters.reverb_amount; },
-    set: function (amount) {
+    get: function() { return this.parameters.reverb_amount; },
+    set: function(amount) {
+      amount = Math.max(amount, 1);
+      amount = Math.min(amount, 0);
       this.parameters.reverb_amount = amount;
       this.reverb.wetdry = amount;
     }
   },
 
   /**
-   * The on/off state of the eq effect
+   * The on/off state of the eq effect. <br>
+   * If true, EQ is enabled.
    * @member
    * @name Audealize~eq_on
    * @type boolean
    */
   eq_on: {
-    get: function () { return this.parameters.eq_on; },
-    set: function (on) {
+    get: function() { return this.parameters.eq_on; },
+    set: function(on) {
       this.parameters.eq_on = on;
       if (on) {
         this.eq.range = this.parameters.eq_amount;
@@ -187,14 +222,15 @@ Audealize.prototype = Object.create(null, {
   },
 
   /**
-    * The on/off state of the reverb effect
+    * The on/off state of the reverb effect. <br>
+    * If true, reverb is enabled.
     * @member
     * @name Audealize~reverb_on
     * @type boolean
     */
   reverb_on: {
-    get: function () { return this.parameters.reverb_on; },
-    set: function (on) {
+    get: function() { return this.parameters.reverb_on; },
+    set: function(on) {
       this.parameters.reverb_on = on;
       if (on) {
         this.reverb.wetdry = this.parameters.reverb_amount;
@@ -206,10 +242,12 @@ Audealize.prototype = Object.create(null, {
 
   // For internal use only
   get_synonyms: {
-    value: function (word) {
+    value: function(word) {
       if (this.api_key == null) {
         return [];
       }
+      console.log('(Audealize) Looking for synonyms of ' + word);
+
       // Thesaurus service provided by words.bighugelabs.com
       var url = 'http://words.bighugelabs.com/api/2/' + this.api_key + '/';
       word = word.replace(/' '/g, '%20');
@@ -236,6 +274,9 @@ Audealize.prototype = Object.create(null, {
             }
           }
         }
+      }
+      if (synonyms.length == 0) {
+        console.log('(Audealize) No synonyms found');
       }
       return synonyms;
     }

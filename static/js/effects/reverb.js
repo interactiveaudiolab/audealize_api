@@ -15,10 +15,15 @@ var mindelay = 0.01;
 
 
 /**
- * Reverb AudioNode
+ * A parametric Reverberator AudioNode <br>
+ * Use it by setting d, g, m, f, E to the parameters you want <br>
+ * The reverberator is described in depth <a
+ * href="http://music.cs.northwestern.edu/publications/Rafii-Pardo%20-%20A%20Digital%20Reverberator%20Controlled%20through%20Measures%20of%20the%20Reverberation%20-%20NU%20EECS%202009.pdf">
+ * here </a>
+ *
  * @class
  * @name Reverb
- * @param {AudioContext} context
+ * @param {AudioContext} context - The Web Audio context
  * @param {Object} opts - Can contain initial vlaues reverb.param
  */
 function Reverb (context, opts) {

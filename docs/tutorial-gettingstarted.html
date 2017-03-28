@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Getting Started</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Getting Started</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Getting Started</h2>
+</header>
+
+<article>
+    <p>Audealize is a Web Audio <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNode</a>. It can be used as a part of a Web Audio graph to apply equalization and reverberation effects to audio. </p>
+<p>Start by creating an <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioContext">AudioContext</a> and an audio source. For this example we’ll use an <a href="https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode">OscillatorNode</a> to generate a 1000 Hz square wave.</p>
+<pre class="prettyprint source"><code>var context = new AudioContext();
+var oscillator = context.createOscillator();
+oscillator.type = 'square';
+oscillator.frequency = 1000;
+oscillator.start();</code></pre><p>Create an Audealize node, passing our AudioContext as an argument.</p>
+<pre class="prettyprint source"><code>var audealize = new Audealize(context);</code></pre><p>Connect our source buffer to the Audealize node. Then connect the Audealize node to our output. </p>
+<pre class="prettyprint source"><code>oscillator.connect(audealize.input);
+audealize.connect(context.destination);</code></pre><h2>Controlling the Effects</h2><p>At this point, you should hear a dry saw wave. To add EQ and reverb effects, set <a href="Audealize.html#~eq_descriptor">eq_descriptor</a> and <a href="Audealize.html#~reverb_descriptor">reverb_descriptor</a>. This will engage both effects.</p>
+<pre class="prettyprint source"><code>audealize.eq_descriptor = 'bright';
+audealize.reverb_descriptor = 'hall';</code></pre><p>To change the amount of each effect, use the <a href="Audealize.html#~eq_amount">eq_amount</a> and <a href="Audealize.html#~reverb_amount">reverb_amount</a> parameters. </p>
+<p><a href="Audealize.html#~reverb_amount">reverb_amount</a> is the ratio between dry and wet signals. It must be a value between 0 and 1.</p>
+<pre class="prettyprint source"><code>audealize.reverb_amount = 1; // The node will now output only the reverb signal
+audealize.reverb_amount = 0; // The node will now output only the dry signal.
+audealize.reverb_amount = 0.5; // The node will now output a mix of reverb and dry signals</code></pre><p><a href="Audealize.html#~eq_amount">eq_amount</a> scales the range of the EQ curve, making the effect more or less intense. Negative values will cause the EQ to apply the inverse of the descriptor’s effect.</p>
+<pre class="prettyprint source"><code>audealize.eq_amount = 1; // The default value
+audealize.eq_amount = 2; // A more intense curve (more 'bright')
+audealize.eq_amount = 0.5; // A less intense curve (less 'bright')
+audealize.eq_amount = 0; // A flat curve (no effect)
+audealize.eq_amount = -1; // The opposite of 'bright'</code></pre><p>To disable or enable an effect, set <a href="Audealize.html#~eq_on">eq_on</a> or <a href="Audealize.html#~reverb_on">reverb_on</a>.</p>
+<pre class="prettyprint source"><code>audealize.eq_on = false; // EQ is now bypassed
+audealize.reverb_on = false; // Reverb is now bypassed</code></pre><h2>Descriptor Data</h2><p>The EQ and reverb descriptors contain additional information. (See <a href="Descriptor.html">Descriptor</a>)</p>
+<pre class="prettyprint source"><code>var reverb_descriptor = audealize.reverb_descriptor
+console.log(JSON.stringify(reverb_descriptor))</code></pre><p>Output:</p>
+<pre class="prettyprint source"><code>{
+    &quot;word&quot;: &quot;crisp&quot;, 
+    &quot;effect&quot;: &quot;reverb&quot;,
+    &quot;settings&quot;:[0.02565566318,0.1703046892,-0.007168177493,3815.808202,0.7850597401,1],
+    &quot;num&quot;: 62,
+    &quot;agreement&quot;: 0.2393311015787082,
+    &quot;x&quot;: 0.08517147812765787,
+    &quot;y&quot;: 0.09099208391366857
+}</code></pre><p><a href="Descriptor.html">Descriptor</a> properties:</p>
+<ul>
+<li><p><strong><a href="Descriptor.html#~word">word</a>:</strong> The semantic descriptor</p>
+</li>
+<li><p><strong><a href="Descriptor.html#~effect">effect</a>:</strong> The audio effect described by the word (eq or reverb)</p>
+</li>
+<li><p><strong><a href="Descriptor.html#~settings">settings</a>:</strong> The audio effect parameters corresponding to the descriptor</p>
+</li>
+<li><p><strong><a href="Descriptor.html#~num">num</a>:</strong> The number of crowdsourced submissions upon which the descriptor definition is based</p>
+</li>
+<li><p><strong><a href="Descriptor.html#~agreement">agreement</a>:</strong> The level of agreement between different submissions for the word</p>
+</li>
+<li><p><strong><a href="Descriptor.html#~x">x</a>:</strong> The x coordinate of this descriptor when parameter space is projected onto a 2d space</p>
+</li>
+<li><p><strong><a href="Descriptor.html#~y">y</a>:</strong> The y coordinate of this descriptor when parameter space is projected onto a 2d space</p>
+</li>
+</ul>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Audealize.html">Audealize</a></li><li><a href="Descriptor.html">Descriptor</a></li><li><a href="Equalizer.html">Equalizer</a></li><li><a href="Reverb.html">Reverb</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-gettingstarted.html">Getting Started</a></li><li><a href="tutorial-synonyms.html">Synonyms</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 28 2017 17:40:39 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

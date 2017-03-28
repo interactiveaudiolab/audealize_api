@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: audealize.js</title>
+    <title>JSDoc: Source: effects/audealize.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: audealize.js</h1>
+    <h1 class="page-title">Source: effects/audealize.js</h1>
 
     
 
@@ -33,20 +33,31 @@ Depends: reverb.js, equalizer.js, data.js, descriptor.js
 */
 
 /**
- * Audealize AudioNode. See {@tutorial gettingstarted}
+ * &lt;b>The Audealize AudioNode &lt;/b>(See {@tutorial gettingstarted}) &lt;br>
+ *
+ * Enables semantic control of EQ and reverb effects &lt;br>&lt;br>
+ *
  * To use, instantiate the node in your web audio graph, then set
- * {@link Audealize~eq_descriptor} or {@link Audealize~reverb_descriptor}
+ * {@link Audealize~eq_descriptor} or {@link Audealize~reverb_descriptor} &lt;br>
+ * &lt;br>
  *
  * This node can optionally look for synonyms if an unkown descriptor is given.
- * To utilize this functionality, get an API key from
- * http://words.bighugelabs.com/api.php and pass as an argument to the constructor.
+ * &lt;br>
+ * &lt;i>To utilize this functionality, get an API key from
+ * &lt;a
+ * href="http://words.bighugelabs.com/api.php">http://words.bighugelabs.com/api.php&lt;/a>
+ * and pass as an argument to the
+ * constructor.
+ *
  *
  * @class
  * @name Audealize
- * @param {AudioContext} context
- * @param {string} api_key - api key for http://words.bighugelabs.com. Needed
- * for finding synonyms
- * @param {Object} opts - Can contain initial vlaues for
+ * @param {AudioContext} context - The Web Audio context
+ * @param {string} api_key - (optional) API key for Thesaurus service provided
+ * by
+ * &lt;a href="http://words.bighugelabs.com/api.php">words.bighugelabs.com&lt;/a>
+ * (See {@tutorial synonyms})
+ * @param {Object} opts - (optional) Initial vlaues for
  * eq_descriptor, reverb_descriptor, eq_amount, reverb_amount, eq_on, reverb_on
  */
 function Audealize (context, api_key = '', opts = {}) {
@@ -97,11 +108,12 @@ Audealize.prototype = Object.create(null, {
   disconnect: {value: function() { this.output.disconnect(); }},
 
   /**
-   * The EQ {@link Descriptor}.
+   * The EQ {@link Descriptor}. &lt;br>
    * Set with a string or {@link Descriptor}. Changes to this paramter will
-   * cause the effect settings to be changed immediately to match.
+   * cause the effect settings to be changed immediately to match. &lt;br>
    * If set with a descriptor not present in the EQ dictionary, the node
-   * will attempt to find synonyms in the dictionary.
+   * will attempt to find synonyms in the dictionary. (See {@tutorial synonyms})
+   * &lt;br>
    * If none are found, the descriptor will revert to its previous value.
    * @member
    * @name Audealize~eq_descriptor
@@ -139,11 +151,12 @@ Audealize.prototype = Object.create(null, {
   },
 
   /**
-   * The reverb {@link Descriptor}.
+   * The reverb {@link Descriptor}. &lt;br>
    * Set with a string or {@link Descriptor}. Changes to this paramter will
-   * cause the effect settings to be changed immediately to match.
+   * cause the effect settings to be changed immediately to match. &lt;br>
    * If set with a descriptor not present in the reverb dictionary, the node
    * will attempt to find synonyms in the dictionary.
+   * (See {@tutorial synonyms}) &lt;br>
    * If none are found, the descriptor will revert to its previous value.
    * @member
    * @name Audealize~reverb_descriptor
@@ -181,9 +194,9 @@ Audealize.prototype = Object.create(null, {
   },
 
   /**
-   * The intensity of the EQ effect. Scales the gain values of each filter in
-   * the equalizer.
-   * Default = 1.0. A value of 0.0 means the EQ curve will be flat at 0dB.
+   * The intensity of the EQ effect. &lt;br>
+   * Scales the gain values of each filter in the equalizer. &lt;br>
+   * Default = 1.0. A value of 0.0 means the EQ curve will be flat at 0dB. &lt;br>
    * Negative values can be used to achieve the inverse effect of the
    * descriptor. (e.g. If eq_descriptor = 'bright' and eq_amount = -1, the sound
    * will the opposite of bright)
@@ -200,15 +213,16 @@ Audealize.prototype = Object.create(null, {
   },
 
   /**
-   * The ratio of reverb to dry signal. 1 = reverb only. 0 = dry signal only
-   * Set with a number [0,1].
+   * The ratio of reverb to dry signal. &lt;br>
+   * 1 = reverb only. 0 = dry signal only. &lt;br>
+   * Set with a number [0,1]
    * @member
    * @name Audealize~reverb_amount
    * @type number
    */
   reverb_amount: {
     get: function() { return this.parameters.reverb_amount; },
-    set: function (amount) {
+    set: function(amount) {
       amount = Math.max(amount, 1);
       amount = Math.min(amount, 0);
       this.parameters.reverb_amount = amount;
@@ -217,7 +231,8 @@ Audealize.prototype = Object.create(null, {
   },
 
   /**
-   * The on/off state of the eq effect. If true, EQ is enabled.
+   * The on/off state of the eq effect. &lt;br>
+   * If true, EQ is enabled.
    * @member
    * @name Audealize~eq_on
    * @type boolean
@@ -235,7 +250,8 @@ Audealize.prototype = Object.create(null, {
   },
 
   /**
-    * The on/off state of the reverb effect. If true, reverb is enabled.
+    * The on/off state of the reverb effect. &lt;br>
+    * If true, reverb is enabled.
     * @member
     * @name Audealize~reverb_on
     * @type boolean
@@ -304,13 +320,13 @@ Audealize.prototype = Object.create(null, {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Audealize.html">Audealize</a></li><li><a href="Equalizer.html">Equalizer</a></li><li><a href="Reverb.html">Reverb</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-gettingstarted.html">Getting Started</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Audealize.html">Audealize</a></li><li><a href="Descriptor.html">Descriptor</a></li><li><a href="Equalizer.html">Equalizer</a></li><li><a href="Reverb.html">Reverb</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-gettingstarted.html">Getting Started</a></li><li><a href="tutorial-synonyms.html">Synonyms</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 28 2017 16:29:24 GMT-0500 (CDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 28 2017 17:40:38 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>

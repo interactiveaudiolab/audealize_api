@@ -13,7 +13,7 @@ Depends: reverb.js, equalizer.js, data.js, descriptor.js
  * @param {Object} opts - Can contain initial vlaues for eq_descriptor and
  * reverb_descriptor
  */
-function Audealize (context, api_key, opts) {
+function Audealize (context, api_key = '', opts = {}) {
   this.input = context.createGain();
   this.output = context.createGain();
 

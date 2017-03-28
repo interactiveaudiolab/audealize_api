@@ -1,2 +1,2 @@
 # audealize_api
-An API for Audealize, to encourage fast prototyping of semantic audio applications with Web Audio API.
+An API for Audealize, to encourage fast prototyping of semantic audio applications with Web Audio API. It uses mappings between descriptions and low-level signal parameters for audio effects collected via crowdsourced studies for equalization and reverberation. Words not in the dataset are mapped to the node via looking for synonyms to the input word or teaching the input word to the node via a series of prompts. We hope that this node will be useful for implementing audio production interfaces based on natural language on the web.

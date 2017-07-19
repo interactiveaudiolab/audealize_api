@@ -1,6 +1,6 @@
 Audealize is capable of searching for synonyms and similar words when presented with an unknown descriptor.
 
-To find synonyms, the node accesses a thesaurus service provided by [http://words.bighugelabs.com](http://words.bighugelabs.com). In order to use this functionality, the Audealize no must be provided with an API key. To get your API key, go to [http://words.bighugelabs.com/getkey.php](http://words.bighugelabs.com/getkey.php) and create an account.
+To find synonyms, the node accesses a thesaurus service provided by [http://words.bighugelabs.com](http://words.bighugelabs.com). In order to use this functionality, the Audealize node must be provided with an API key. To get your API key, go to [http://words.bighugelabs.com/getkey.php](http://words.bighugelabs.com/getkey.php) and create an account.
 
 Once you have an API key, the Audealize node should be instantiated as follows:
 

@@ -29,7 +29,7 @@
 
 <article>
     <p>Audealize is capable of searching for synonyms and similar words when presented with an unknown descriptor.</p>
-<p>To find synonyms, the node accesses a thesaurus service provided by <a href="http://words.bighugelabs.com">http://words.bighugelabs.com</a>. In order to use this functionality, the Audealize no must be provided with an API key. To get your API key, go to <a href="http://words.bighugelabs.com/getkey.php">http://words.bighugelabs.com/getkey.php</a> and create an account.</p>
+<p>To find synonyms, the node accesses a thesaurus service provided by <a href="http://words.bighugelabs.com">http://words.bighugelabs.com</a>. In order to use this functionality, the Audealize node must be provided with an API key. To get your API key, go to <a href="http://words.bighugelabs.com/getkey.php">http://words.bighugelabs.com/getkey.php</a> and create an account.</p>
 <p>Once you have an API key, the Audealize node should be instantiated as follows:</p>
 <pre class="prettyprint source"><code>var audealize = new Audealize(context, 'Your API Key');</code></pre><p>Now, if <a href="Audealize.html#~eq_descriptor">eq_descriptor</a> or <a href="Audealize.html#~reverb_descriptor">reverb_descriptor</a> are set with a word not in Audealize's dictionary, the node will attempt to find a synonym of the desired word that is in it's dictionary. If no synonyms are found, the desriptor will revert to its previous value.</p>
 </article>

@@ -1,6 +1,8 @@
 # Audealize API
 A Web Audio node to encourage fast prototyping of semantic audio applications. 
 ![Audealize](https://github.com/interactiveaudiolab/audealize_api/blob/master/docs/img/propreverbcontroller.png?raw=true)
+(above: screenshot of an example reverberator interface using Audealize)
+
 Audealize API provides a natural language interface for controlling two audio effects: equalization and reverberation. The API provides a Web Audio AudioNode that uses crowdsourced mappings between descriptions and low-level signal parameters to allow a user to control the settings of each effect by specifying a word (e.g. "bright", "warm") that describes their desired sound. We hope that this node will be useful for implementing audio production interfaces based on natural language on the web.
 
 # Download
